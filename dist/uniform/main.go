@@ -1,4 +1,6 @@
 // Package uniform provides algorithms for working with uniform distributions.
+//
+// https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
 package uniform
 
 import (
@@ -11,7 +13,7 @@ type Self struct {
 	b float64
 }
 
-// New returns the distribution on [a, b].
+// New returns a uniform distribution on [a, b].
 func New(a, b float64) *Self {
 	return &Self{a, b}
 }

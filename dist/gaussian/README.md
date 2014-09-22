@@ -1,6 +1,7 @@
 # Gaussian Distribution
 
-The package provides algorithms for working with Gaussian distributions.
+The package provides algorithms for working with
+[Gaussian distributions](https://en.wikipedia.org/wiki/Normal_distribution).
 
 ## Acknowledgments
 

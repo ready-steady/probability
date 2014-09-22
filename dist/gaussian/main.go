@@ -1,4 +1,6 @@
 // Package gaussian provides algorithms for working with Gaussian distributions.
+//
+// https://en.wikipedia.org/wiki/Normal_distribution
 package gaussian
 
 import (
@@ -12,7 +14,7 @@ type Self struct {
 	σ2 float64
 }
 
-// New returns the distribution with mean μ and variance σ2.
+// New returns a Gaussian distribution with mean μ and variance σ2.
 func New(μ, σ2 float64) *Self {
 	return &Self{μ, σ2}
 }
