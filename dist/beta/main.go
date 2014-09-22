@@ -48,60 +48,50 @@ func betaInc(α, β, x float64) float64 {
 		return 1
 	}
 
+	αx, βx := x, 1 - x
+
 	var flip bool
-	var i, ns int
-	var cx, pp, psq, qq, rx, temp, term, value, xx float64
-
-	psq = α + β
-
 	if α < (α+β)*x {
-		xx = 1 - x
-		cx = x
-		pp, qq = β, α
+		α, αx, β, βx = β, βx, α, αx
 		flip = true
-	} else {
-		xx = x
-		cx = 1 - x
-		pp, qq = α, β
 	}
 
-	term = 1
-	i = 1
-	value = 1
-
-	ns = int(qq + cx*(α+β))
-	rx = xx / cx
-
-	temp = qq - float64(i)
-	if ns == 0 {
-		rx = xx
+	// https://en.wikipedia.org/wiki/Integration_by_reduction_formulae
+	rx := αx
+	n := int(β + βx*(α+β))
+	if n != 0 {
+		rx /= βx
 	}
+
+	value := 1.0
 
 	// FIXME: Might not converge. Panic?
-	for k := 0; k < max; k++ {
-		term = term * temp * rx / (pp + float64(i))
-		value = value + term
+	for i, temp, psq, term := 1, β - 1, α + β, 1.0; i <= max; {
+		term = term * temp * rx / (α + float64(i))
+
+		value += term
 		temp = math.Abs(term)
 
 		if temp <= tol && temp <= tol*value {
 			break
 		}
 
-		i = i + 1
-		ns = ns - 1
+		i++
+		n--
 
-		if 0 <= ns {
-			temp = qq - float64(i)
-			if ns == 0 {
-				rx = xx
+		if 0 <= n {
+			temp = β - float64(i)
+			if n == 0 {
+				rx = αx
 			}
 		} else {
 			temp = psq
-			psq = psq + 1
+			psq += 1
 		}
 	}
 
-	value = value * math.Exp(pp*math.Log(xx)+(qq-1)*math.Log(cx)) / (beta(α, β) * pp)
+	// http://dlmf.nist.gov/8.17#v
+	value = value * math.Exp(α*math.Log(αx)+(β-1)*math.Log(βx)) / (beta(α, β) * α)
 
 	if flip {
 		return 1 - value
