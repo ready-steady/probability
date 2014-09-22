@@ -65,8 +65,7 @@ func betaInc(α, β, x float64) float64 {
 
 	value := 1.0
 
-	// FIXME: Might not converge. Panic?
-	for i, temp, psq, term := 1, β-1, α+β, 1.0; i <= max; {
+	for i, temp, psq, term := 1, β-1, α+β, 1.0; ; {
 		term = term * temp * rx / (α + float64(i))
 
 		value += term
@@ -77,6 +76,12 @@ func betaInc(α, β, x float64) float64 {
 		}
 
 		i++
+
+		if i > max {
+			// FIXME: Might not converge. Panic?
+			break
+		}
+
 		n--
 
 		if 0 <= n {
