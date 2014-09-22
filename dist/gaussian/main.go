@@ -196,7 +196,7 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 		if absq <= split1 {
 			r = const1 - q*q
-			values[i] = μ + σ * q * poly(a, r) / poly(b, r)
+			values[i] = μ + σ*q*poly(a, r)/poly(b, r)
 			continue
 		}
 
@@ -217,10 +217,10 @@ func (s *Self) InvCDF(points []float64) []float64 {
 		}
 
 		if q < 0 {
-			values[i] = -values[i]
+			values[i] = μ - σ*values[i]
+		} else {
+			values[i] = μ + σ*values[i]
 		}
-
-		values[i] = μ + σ * values[i]
 	}
 
 	return values
