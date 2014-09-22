@@ -4,6 +4,7 @@ import (
 	"math"
 	"testing"
 
+	"github.com/go-math/prob/dist/uniform"
 	"github.com/go-math/support/assert"
 )
 
@@ -67,4 +68,26 @@ func TestInvCDF(t *testing.T) {
 	}
 
 	assert.AlmostEqual(New(-1, 0.25*0.25).InvCDF(points), values, t)
+}
+
+func BenchmarkCDF(b *testing.B) {
+	dist := New(0, 1)
+	points := dist.Sample(1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		dist.CDF(points)
+	}
+}
+
+func BenchmarkInvCDF(b *testing.B) {
+	dist := New(0, 1)
+	points := uniform.New(0, 1).Sample(1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		dist.InvCDF(points)
+	}
 }
