@@ -5,12 +5,13 @@ import (
 	"math/rand"
 )
 
+// Self represents a particular distribution from the family.
 type Self struct {
 	a float64
 	b float64
 }
 
-// New returns the (continuous) uniform distribution on [a, b].
+// New returns the distribution on [a, b].
 func New(a, b float64) *Self {
 	return &Self{a, b}
 }
