@@ -114,7 +114,8 @@ var f = []float64{
 // InvCDF evaluates the inverse CDF of the distribution.
 func (s *Self) InvCDF(points []float64) []float64 {
 	// Author: John Burkardt
-	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/prob/prob.html
+	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
+	// Modified: December 27, 2004
 
 	const (
 		const1 = 0.180625
@@ -182,7 +183,8 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 func poly(a []float64, x float64) (value float64) {
 	// Author: John Burkardt
-	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/prob/prob.html
+	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
+	// Modified: March 19, 2010
 
 	for i := len(a) - 1; 0 <= i; i-- {
 		value = value*x + a[i]
