@@ -48,11 +48,10 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 func ibeta(α, β, x float64) float64 {
 	// Author: John Burkardt
-	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/prob/prob.html
+	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/asa063/asa063.html
 
 	const (
-		max = 1000
-		tol = 1e-07
+		acu = 0.1e-14
 	)
 
 	if x <= 0 {
@@ -61,55 +60,55 @@ func ibeta(α, β, x float64) float64 {
 		return 1
 	}
 
+	sum := α + β
 	αx, βx := x, 1-x
 
+	// Change the tail if necessary.
 	var flip bool
-	if α < (α+β)*x {
+	if α < sum*x {
 		α, αx, β, βx = β, βx, α, αx
 		flip = true
 	}
 
-	// https://en.wikipedia.org/wiki/Integration_by_reduction_formulae
-	rx := αx
-	n := int(β + βx*(α+β))
-	if n != 0 {
-		rx /= βx
+	// Use Soper’s reduction formula.
+	rx := αx / βx
+
+	ns := int(β + βx*sum)
+	if ns == 0 {
+		rx = αx
 	}
+
+	ai := 1
+	temp := β - float64(ai)
+	term := 1.0
 
 	value := 1.0
 
-	for i, temp, psq, term := 1, β-1, α+β, 1.0; ; {
-		term = term * temp * rx / (α + float64(i))
+	for {
+		term = term * temp * rx / (α + float64(ai))
 
 		value += term
+
 		temp = math.Abs(term)
-
-		if temp <= tol && temp <= tol*value {
+		if temp <= acu && temp <= acu*value {
 			break
 		}
 
-		i++
+		ai++
+		ns--
 
-		if i > max {
-			// FIXME: Might not converge. Panic?
-			break
-		}
-
-		n--
-
-		if 0 <= n {
-			temp = β - float64(i)
-			if n == 0 {
-				rx = αx
-			}
+		if 0 < ns {
+			temp = β - float64(ai)
+		} else if ns == 0 {
+			temp = β - float64(ai)
+			rx = αx
 		} else {
-			temp = psq
-			psq += 1
+			temp = sum
+			sum += 1
 		}
 	}
 
-	// http://dlmf.nist.gov/8.17#v
-	value = value * math.Exp(α*math.Log(αx)+(β-1)*math.Log(βx)) / (beta(α, β) * α)
+	value = value * math.Exp(α*math.Log(αx)+(β-1)*math.Log(βx)-logBeta(α, β)) / α
 
 	if flip {
 		return 1 - value
@@ -118,12 +117,12 @@ func ibeta(α, β, x float64) float64 {
 	}
 }
 
-func beta(x, y float64) float64 {
+func logBeta(x, y float64) float64 {
 	z, _ := math.Lgamma(x + y)
 	x, _ = math.Lgamma(x)
 	y, _ = math.Lgamma(y)
 
-	return math.Exp(x + y - z)
+	return x + y - z
 }
 
 func invbeta(cdf, p, q float64) float64 {
