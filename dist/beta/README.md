@@ -5,7 +5,6 @@ The package provides algorithms for working with
 
 ## Acknowledgments
 
-The code is based on the
-[work](http://people.sc.fsu.edu/~jburkardt/c_src/prob/prob.html) of
+The code is based on the work of
 [John Burkardt](http://people.sc.fsu.edu/~jburkardt/i.html) from Florida State
 University.
