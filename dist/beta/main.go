@@ -121,14 +121,6 @@ func incBeta(x, α, β, logBeta float64) float64 {
 	}
 }
 
-func logBeta(x, y float64) float64 {
-	z, _ := math.Lgamma(x + y)
-	x, _ = math.Lgamma(x)
-	y, _ = math.Lgamma(y)
-
-	return x + y - z
-}
-
 func invIncBeta(x, α, β, logBeta float64) float64 {
 	// Author: John Burkardt
 	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/asa109/asa109.html
@@ -145,12 +137,6 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 		return 1
 	}
 
-	var iex int
-	var acu, adj, fpu, g, h float64
-	var prev, r, s, sq, t, tx, w, xin, y, yprev float64
-
-	fpu = math.Pow10(sae)
-
 	var flip bool
 	if 0.5 < x {
 		x = 1 - x
@@ -158,29 +144,24 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 		flip = true
 	}
 
-	var value float64
-
 	// Calculate the initial approximation.
-	r = math.Sqrt(-math.Log(x * x))
-	y = r - (2.30753+0.27061*r)/(1+(0.99229+0.04481*r)*r)
+	value := math.Sqrt(-math.Log(x * x))
+	y := value - (2.30753+0.27061*value)/(1+(0.99229+0.04481*value)*value)
 
 	if 1 < α && 1 < β {
-		r = (y*y - 3) / 6
-		s = 1 / (2*α - 1)
-		t = 1 / (2*β - 1)
-		h = 2 / (s + t)
-		w = y*math.Sqrt(h+r)/h - (t-s)*(r+5/6-2/(3*h))
-		value = α / (α + β*math.Exp(w+w))
+		r := (y*y - 3) / 6
+		s := 1 / (2*α - 1)
+		t := 1 / (2*β - 1)
+		h := 2 / (s + t)
+		w := y*math.Sqrt(h+r)/h - (t-s)*(r+5/6-2/(3*h))
+		value = α / (α + β*math.Exp(2*w))
 	} else {
-		r = β + β
-		t = 1 / (9 * β)
-		t = r * math.Pow(1-t+y*math.Sqrt(t), 3)
-
+		t := 1 / (9 * β)
+		t = 2 * β * math.Pow(1-t+y*math.Sqrt(t), 3)
 		if t <= 0 {
 			value = 1 - math.Exp((math.Log((1-x)*β)+logBeta)/β)
 		} else {
-			t = (4*α + r - 2) / t
-
+			t = 2 * (2*α + β - 1) / t
 			if t <= 1 {
 				value = math.Exp((math.Log(x*α) + logBeta) / α)
 			} else {
@@ -189,34 +170,23 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 		}
 	}
 
-	// Solve by a modified Newton–Raphson method.
-	r = 1 - α
-	t = 1 - β
-	yprev = 0
-	sq = 1
-	prev = 1
-
 	if value < 0.0001 {
 		value = 0.0001
-	}
-
-	if 0.9999 < value {
+	} else if 0.9999 < value {
 		value = 0.9999
 	}
 
-	iex = int(-5/α/α - 1/math.Pow(x, 0.2) - 13)
-	if iex < sae {
-		iex = sae
+	// Solve by a modified Newton–Raphson method.
+	fpu := math.Pow10(sae)
+	acu := fpu
+	if e := int(-5/α/α - 1/math.Pow(x, 0.2) - 13); e > sae {
+		acu = math.Pow10(e)
 	}
 
-	acu = math.Pow10(iex)
-
 outer:
-	for {
+	for tx, sq, prev, yprev := 0.0, 1.0, 1.0, 0.0; ; {
 		y = incBeta(value, α, β, logBeta)
-
-		xin = value
-		y = (y - x) * math.Exp(logBeta+r*math.Log(xin)+t*math.Log(1-xin))
+		y = (y - x) * math.Exp(logBeta+(1-α)*math.Log(value)+(1-β)*math.Log(1-value))
 
 		if y*yprev <= 0 {
 			if sq > fpu {
@@ -226,11 +196,9 @@ outer:
 			}
 		}
 
-		g = 1
-
-		for {
+		for g := 1.0; ; {
 			for {
-				adj = g * y
+				adj := g * y
 				sq = adj * adj
 
 				if sq < prev {
@@ -240,10 +208,11 @@ outer:
 						break
 					}
 				}
-				g = g / 3
+				g /= 3
 			}
 
 			if prev <= acu || y*y <= acu {
+				value = tx
 				break outer
 			}
 
@@ -251,7 +220,7 @@ outer:
 				break
 			}
 
-			g = g / 3
+			g /= 3
 		}
 
 		if tx == value {
@@ -267,4 +236,12 @@ outer:
 	} else {
 		return value
 	}
+}
+
+func logBeta(x, y float64) float64 {
+	z, _ := math.Lgamma(x + y)
+	x, _ = math.Lgamma(x)
+	y, _ = math.Lgamma(y)
+
+	return x + y - z
 }
