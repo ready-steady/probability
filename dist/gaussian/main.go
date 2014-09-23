@@ -47,9 +47,8 @@ func (s *Self) CDF(points []float64) []float64 {
 
 // InvCDF evaluates the inverse CDF of the distribution.
 func (s *Self) InvCDF(points []float64) []float64 {
-	// Author: John Burkardt
-	// Source: http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
-	// Modified: December 27, 2004
+	// The code is based on a C implementation by John Burkardt.
+	// http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
 
 	const (
 		const1 = 0.180625
