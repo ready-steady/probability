@@ -66,7 +66,6 @@ func incBeta(x, p, q, logB float64) float64 {
 	sum := p + q
 	px, qx := x, 1-x
 
-	// Change the tail if necessary.
 	var flip bool
 	if p < sum*x {
 		p, px, q, qx = q, qx, p, px
@@ -252,8 +251,9 @@ outer:
 			prev = math.Max(sq, fpu)
 		}
 
+		// Applied Statistics. Algorithm AS 109
+		// http://www.jstor.org/discover/10.2307/2346887
 		g = 1
-
 		for {
 			for {
 				adj = g * y
