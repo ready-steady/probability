@@ -130,10 +130,10 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 		sae = -30
 	)
 
-	if x == 0 {
+	if x <= 0 {
 		return 0
 	}
-	if x == 1 {
+	if 1 <= x {
 		return 1
 	}
 
@@ -177,6 +177,8 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 	}
 
 	// Solve by a modified Newton–Raphson method.
+	tx, sq, prev, yprev := 0.0, 1.0, 1.0, 0.0
+
 	fpu := math.Pow10(sae)
 	acu := fpu
 	if e := int(-5/α/α - 1/math.Pow(x, 0.2) - 13); e > sae {
@@ -184,19 +186,17 @@ func invIncBeta(x, α, β, logBeta float64) float64 {
 	}
 
 outer:
-	for tx, sq, prev, yprev := 0.0, 1.0, 1.0, 0.0; ; {
+	for {
 		y = incBeta(value, α, β, logBeta)
 		y = (y - x) * math.Exp(logBeta+(1-α)*math.Log(value)+(1-β)*math.Log(1-value))
 
 		if y*yprev <= 0 {
-			if sq > fpu {
-				prev = sq
-			} else {
-				prev = fpu
-			}
+			prev = math.Max(sq, fpu)
 		}
 
-		for g := 1.0; ; {
+		g := 1.0
+
+		for {
 			for {
 				adj := g * y
 				sq = adj * adj
