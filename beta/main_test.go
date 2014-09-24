@@ -3,7 +3,7 @@ package beta
 import (
 	"testing"
 
-	"github.com/go-math/prob/dist/uniform"
+	"github.com/go-math/prob/uniform"
 	"github.com/go-math/support/assert"
 )
 
