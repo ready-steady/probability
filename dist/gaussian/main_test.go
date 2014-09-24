@@ -34,7 +34,7 @@ func TestCDF(t *testing.T) {
 		9.331927987311419e-01,
 	}
 
-	assert.AlmostEqual(New(1, 2*2).CDF(points), values, t)
+	assert.AlmostEqual(New(1, 2).CDF(points), values, t)
 }
 
 func TestInvCDF(t *testing.T) {
@@ -67,7 +67,7 @@ func TestInvCDF(t *testing.T) {
 		math.Inf(1),
 	}
 
-	assert.AlmostEqual(New(-1, 0.25*0.25).InvCDF(points), values, t)
+	assert.AlmostEqual(New(-1, 0.25).InvCDF(points), values, t)
 }
 
 func BenchmarkCDF(b *testing.B) {

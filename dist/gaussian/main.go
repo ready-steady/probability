@@ -10,20 +10,20 @@ import (
 
 // Self represents a particular distribution from the family.
 type Self struct {
-	μ  float64
-	σ2 float64
+	μ float64
+	σ float64
 }
 
-// New returns a Gaussian distribution with mean μ and variance σ2.
-func New(μ, σ2 float64) *Self {
-	return &Self{μ, σ2}
+// New returns a Gaussian distribution with mean μ and standard deviation σ.
+func New(μ, σ float64) *Self {
+	return &Self{μ, σ}
 }
 
 // Sample draws samples from the distribution.
 func (s *Self) Sample(count uint32) []float64 {
 	points := make([]float64, count)
 
-	μ, σ := s.μ, math.Sqrt(s.σ2)
+	μ, σ := s.μ, s.σ
 
 	for i := range points {
 		points[i] = μ + σ*rand.NormFloat64()
@@ -36,7 +36,7 @@ func (s *Self) Sample(count uint32) []float64 {
 func (s *Self) CDF(points []float64) []float64 {
 	values := make([]float64, len(points))
 
-	a, b := s.μ, math.Sqrt(2*s.σ2)
+	a, b := s.μ, s.σ * math.Sqrt2
 
 	for i, x := range points {
 		values[i] = (1 + math.Erf((x-a)/b)) / 2
@@ -60,7 +60,7 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 	values := make([]float64, len(points))
 
-	μ, σ := s.μ, math.Sqrt(s.σ2)
+	μ, σ := s.μ, s.σ
 	inf := math.Inf(1)
 
 	var q, r float64
