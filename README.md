@@ -1,4 +1,6 @@
-# Probability
+# Probability Theory
+
+The package provides functions for working with probability distributions.
 
 ## Contributing
 
