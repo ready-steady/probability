@@ -21,29 +21,11 @@ func New(α, β, a, b float64) *Self {
 }
 
 // CDF evaluates the CDF of the distribution.
-func (s *Self) CDF(points []float64) []float64 {
-	values := make([]float64, len(points))
-
-	α, β, k, b := s.α, s.β, s.b-s.a, s.a
-	logB := sfunc.LogBeta(α, β)
-
-	for i, x := range points {
-		values[i] = sfunc.IncBeta((x-b)/k, α, β, logB)
-	}
-
-	return values
+func (s *Self) CDF(x float64) float64 {
+	return sfunc.IncBeta((x-s.a)/(s.b-s.a), s.α, s.β, sfunc.LogBeta(s.α, s.β))
 }
 
 // InvCDF evaluates the inverse CDF of the distribution.
-func (s *Self) InvCDF(points []float64) []float64 {
-	values := make([]float64, len(points))
-
-	α, β, k, b := s.α, s.β, s.b-s.a, s.a
-	logB := sfunc.LogBeta(α, β)
-
-	for i, p := range points {
-		values[i] = k*sfunc.InvIncBeta(p, α, β, logB) + b
-	}
-
-	return values
+func (s *Self) InvCDF(p float64) float64 {
+	return (s.b-s.a)*sfunc.InvIncBeta(p, s.α, s.β, sfunc.LogBeta(s.α, s.β)) + s.a
 }
