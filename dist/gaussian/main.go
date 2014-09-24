@@ -36,7 +36,7 @@ func (s *Self) Sample(count uint32) []float64 {
 func (s *Self) CDF(points []float64) []float64 {
 	values := make([]float64, len(points))
 
-	a, b := s.μ, s.σ * math.Sqrt2
+	a, b := s.μ, s.σ*math.Sqrt2
 
 	for i, x := range points {
 		values[i] = (1 + math.Erf((x-a)/b)) / 2
