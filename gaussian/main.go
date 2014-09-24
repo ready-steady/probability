@@ -19,38 +19,21 @@ func New(μ, σ float64) *Self {
 	return &Self{μ, σ}
 }
 
-// Sample draws samples from the distribution.
-func (s *Self) Sample(count uint32) []float64 {
-	points := make([]float64, count)
-
-	μ, σ := s.μ, s.σ
-
-	for i := range points {
-		points[i] = μ + σ*rand.NormFloat64()
-	}
-
-	return points
+// Sample draws a sample from the distribution.
+func (s *Self) Sample() float64 {
+	return s.μ + s.σ*rand.NormFloat64()
 }
 
 // CDF evaluates the CDF of the distribution.
-func (s *Self) CDF(points []float64) []float64 {
-	values := make([]float64, len(points))
-
-	a, b := s.μ, s.σ*math.Sqrt2
-
-	for i, x := range points {
-		values[i] = (1 + math.Erf((x-a)/b)) / 2
-	}
-
-	return values
+func (s *Self) CDF(x float64) float64 {
+	return (1 + math.Erf((x-s.μ)/(s.σ*math.Sqrt2))) / 2
 }
 
-// InvCDF evaluates the inverse CDF of the distribution.
+// InvCDF evaluates the inverse of the CDF of the distribution.
 //
 // The code is based on a C implementation by John Burkardt.
 // http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
-func (s *Self) InvCDF(points []float64) []float64 {
-
+func (s *Self) InvCDF(p float64) (x float64) {
 	const (
 		const1 = 0.180625
 		const2 = 1.6
@@ -58,60 +41,49 @@ func (s *Self) InvCDF(points []float64) []float64 {
 		split2 = 5
 	)
 
-	values := make([]float64, len(points))
-
-	μ, σ := s.μ, s.σ
-	inf := math.Inf(1)
-
-	var q, r float64
-
-	for i, p := range points {
-		if p <= 0 {
-			values[i] = -inf
-			continue
-		}
-		if 1 <= p {
-			values[i] = inf
-			continue
-		}
-
-		q = p - 0.5
-
-		if math.Abs(q) <= split1 {
-			r = const1 - q*q
-			values[i] = μ + σ*q*poly7(coefA, r)/poly7(coeffB, r)
-			continue
-		}
-
-		if q < 0 {
-			r = p
-		} else {
-			r = 1 - p
-		}
-
-		r = math.Sqrt(-math.Log(r))
-
-		if r <= split2 {
-			r -= const2
-			values[i] = poly7(coefC, r) / poly7(coefD, r)
-		} else {
-			r -= split2
-			values[i] = poly7(coefE, r) / poly7(coefF, r)
-		}
-
-		if q < 0 {
-			values[i] = μ - σ*values[i]
-		} else {
-			values[i] = μ + σ*values[i]
-		}
+	if p <= 0 {
+		return math.Inf(-1)
+	}
+	if 1 <= p {
+		return math.Inf(1)
 	}
 
-	return values
+	q := p - 0.5
+
+	if math.Abs(q) <= split1 {
+		x = const1 - q*q
+		x = s.μ + s.σ*q*poly7(coefA, x)/poly7(coeffB, x)
+		return
+	}
+
+	if q < 0 {
+		x = p
+	} else {
+		x = 1 - p
+	}
+
+	x = math.Sqrt(-math.Log(x))
+
+	if x <= split2 {
+		x -= const2
+		x = poly7(coefC, x) / poly7(coefD, x)
+	} else {
+		x -= split2
+		x = poly7(coefE, x) / poly7(coefF, x)
+	}
+
+	if q < 0 {
+		x = s.μ - s.σ*x
+	} else {
+		x = s.μ + s.σ*x
+	}
+
+	return
 }
 
-func poly7(coef []float64, x float64) (value float64) {
+func poly7(coef []float64, x float64) (y float64) {
 	for i := 8 - 1; 0 <= i; i-- {
-		value = value*x + coef[i]
+		y = y*x + coef[i]
 	}
 
 	return

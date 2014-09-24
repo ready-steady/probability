@@ -4,17 +4,18 @@ import (
 	"math"
 	"testing"
 
+	"github.com/go-math/prob"
 	"github.com/go-math/prob/uniform"
 	"github.com/go-math/support/assert"
 )
 
 func TestCDF(t *testing.T) {
-	points := []float64{
+	x := []float64{
 		-4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5,
 		0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0,
 	}
 
-	values := []float64{
+	F := []float64{
 		6.209665325776139e-03,
 		1.222447265504470e-02,
 		2.275013194817922e-02,
@@ -34,16 +35,16 @@ func TestCDF(t *testing.T) {
 		9.331927987311419e-01,
 	}
 
-	assert.AlmostEqual(New(1, 2).CDF(points), values, t)
+	assert.AlmostEqual(prob.CDF(New(1, 2), x), F, t)
 }
 
 func TestInvCDF(t *testing.T) {
-	points := []float64{
+	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
 	}
 
-	values := []float64{
+	x := []float64{
 		math.Inf(-1),
 		-1.411213406737868e+00,
 		-1.320387891386150e+00,
@@ -67,27 +68,27 @@ func TestInvCDF(t *testing.T) {
 		math.Inf(1),
 	}
 
-	assert.AlmostEqual(New(-1, 0.25).InvCDF(points), values, t)
+	assert.AlmostEqual(prob.InvCDF(New(-1, 0.25), F), x, t)
 }
 
 func BenchmarkCDF(b *testing.B) {
 	dist := New(0, 1)
-	points := dist.Sample(1000)
+	x := prob.Sample(dist, 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		dist.CDF(points)
+		prob.CDF(dist, x)
 	}
 }
 
 func BenchmarkInvCDF(b *testing.B) {
 	dist := New(0, 1)
-	points := uniform.New(0, 1).Sample(1000)
+	F := prob.Sample(uniform.New(0, 1), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		dist.InvCDF(points)
+		prob.InvCDF(dist, F)
 	}
 }
