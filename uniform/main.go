@@ -18,16 +18,8 @@ func New(a, b float64) *Self {
 	return &Self{a, b}
 }
 
-// Sample draws samples from the distribution.
-func (s *Self) Sample(count uint32) []float64 {
-	points := make([]float64, count)
-
-	k, b := s.b-s.a, s.a
-
-	for i := range points {
-		// http://golang.org/src/pkg/math/rand/rand.go#L104
-		points[i] = k*float64(rand.Int63n(1<<53))/(1<<53) + b
-	}
-
-	return points
+// Sample draws a sample from the distribution.
+func (s *Self) Sample() float64 {
+	// http://golang.org/src/pkg/math/rand/rand.go#L104
+	return (s.b-s.a)*float64(rand.Int63n(1<<53))/(1<<53) + s.a
 }
