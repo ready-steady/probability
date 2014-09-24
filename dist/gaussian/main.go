@@ -46,9 +46,10 @@ func (s *Self) CDF(points []float64) []float64 {
 }
 
 // InvCDF evaluates the inverse CDF of the distribution.
+//
+// The code is based on a C implementation by John Burkardt.
+// http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
 func (s *Self) InvCDF(points []float64) []float64 {
-	// The code is based on a C implementation by John Burkardt.
-	// http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
 
 	const (
 		const1 = 0.180625
@@ -78,7 +79,7 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 		if math.Abs(q) <= split1 {
 			r = const1 - q*q
-			values[i] = μ + σ*q*polynom(coefA, r)/polynom(coeffB, r)
+			values[i] = μ + σ*q*poly7(coefA, r)/poly7(coeffB, r)
 			continue
 		}
 
@@ -92,10 +93,10 @@ func (s *Self) InvCDF(points []float64) []float64 {
 
 		if r <= split2 {
 			r -= const2
-			values[i] = polynom(coefC, r) / polynom(coefD, r)
+			values[i] = poly7(coefC, r) / poly7(coefD, r)
 		} else {
 			r -= split2
-			values[i] = polynom(coefE, r) / polynom(coefF, r)
+			values[i] = poly7(coefE, r) / poly7(coefF, r)
 		}
 
 		if q < 0 {
@@ -108,7 +109,7 @@ func (s *Self) InvCDF(points []float64) []float64 {
 	return values
 }
 
-func polynom(coef []float64, x float64) (value float64) {
+func poly7(coef []float64, x float64) (value float64) {
 	for i := 8 - 1; 0 <= i; i-- {
 		value = value*x + coef[i]
 	}
