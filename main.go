@@ -6,15 +6,23 @@ type Sampler interface {
 	Sample() float64
 }
 
-// CDFer represents a probability distribution capable of evaluating its CDF.
-type CDFer interface {
+// Cumulator represents a probability distribution capable of evaluating its
+// cumulative distribution function.
+type Cumulator interface {
 	CDF(float64) float64
 }
 
-// InvCDFer represents a probability distribution capable of evaluating the
-// inverse of its CDF.
-type InvCDFer interface {
+// Inverter represents a probability distribution capable of evaluating the
+// inverse of its cumulative distribution function.
+type Inverter interface {
 	InvCDF(float64) float64
+}
+
+// Distribution represents a probability distribution.
+type Distribution interface {
+	Cumulator
+	Inverter
+	Sampler
 }
 
 // Sample draws samples from the given distribution.
@@ -28,8 +36,9 @@ func Sample(dist Sampler, count uint32) []float64 {
 	return result
 }
 
-// CDF evalues the CDF of the given distribution.
-func CDF(dist CDFer, x[]float64) []float64 {
+// CDF evaluates the cumulative distribution function of the given
+// distribution.
+func CDF(dist Cumulator, x[]float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
@@ -39,8 +48,9 @@ func CDF(dist CDFer, x[]float64) []float64 {
 	return result
 }
 
-// InvCDF evalues the inverse of the CDF of the given distribution.
-func InvCDF(dist InvCDFer, x[]float64) []float64 {
+// InvCDF evaluates the inverse of the cumulative distribution function of the
+// given distribution.
+func InvCDF(dist Inverter, x[]float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
