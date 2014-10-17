@@ -38,7 +38,7 @@ func Sample(dist Sampler, count uint32) []float64 {
 
 // CDF evaluates the cumulative distribution function of the given
 // distribution.
-func CDF(dist Cumulator, x[]float64) []float64 {
+func CDF(dist Cumulator, x []float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
@@ -50,7 +50,7 @@ func CDF(dist Cumulator, x[]float64) []float64 {
 
 // InvCDF evaluates the inverse of the cumulative distribution function of the
 // given distribution.
-func InvCDF(dist Inverter, x[]float64) []float64 {
+func InvCDF(dist Inverter, x []float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
