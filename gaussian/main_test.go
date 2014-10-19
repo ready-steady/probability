@@ -92,3 +92,13 @@ func BenchmarkInvCDF(b *testing.B) {
 		prob.InvCDF(dist, F)
 	}
 }
+
+func BenchmarkSample(b *testing.B) {
+	dist := New(0, 1)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		dist.Sample()
+	}
+}
