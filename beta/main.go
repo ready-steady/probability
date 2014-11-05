@@ -4,7 +4,7 @@
 package beta
 
 import (
-	"github.com/go-math/sfunc"
+	"github.com/ready-steady/sfunc"
 )
 
 // Self represents a particular distribution from the family.

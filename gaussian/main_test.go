@@ -4,9 +4,9 @@ import (
 	"math"
 	"testing"
 
-	"github.com/go-math/prob"
-	"github.com/go-math/prob/uniform"
-	"github.com/go-math/support/assert"
+	"github.com/ready-steady/prob"
+	"github.com/ready-steady/prob/uniform"
+	"github.com/ready-steady/support/assert"
 )
 
 func TestCDF(t *testing.T) {
