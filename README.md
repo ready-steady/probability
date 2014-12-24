@@ -2,11 +2,22 @@
 
 The package provides functions for working with probability distributions.
 
+## [Documentation][doc]
+
+## Nested Packages
+
+The repository hosts three nested packages:
+
+* [beta](beta),
+* [gaussian](gaussian), and
+* [uniform](uniform).
+
 ## Contributing
 
 1. Fork the project.
 2. Implement your idea.
 3. Create a pull request.
 
+[doc]: http://godoc.org/github.com/ready-steady/prob
 [travis-svg]: https://travis-ci.org/ready-steady/prob.svg?branch=master
 [travis-url]: https://travis-ci.org/ready-steady/prob

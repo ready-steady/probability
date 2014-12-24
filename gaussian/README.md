@@ -1,10 +1,16 @@
 # Gaussian Distribution
 
-The package provides algorithms for working with
-[Gaussian distributions](https://en.wikipedia.org/wiki/Normal_distribution).
+The package provides algorithms for working with [Gaussian
+distributions][gaussian].
+
+## [Documentation][doc]
 
 ## Acknowledgments
 
-The code is based on the work of
-[John Burkardt](http://people.sc.fsu.edu/~jburkardt/i.html) from Florida State
+The code is based on the work of [John Burkardt][burkardt] from Florida State
 University.
+
+[beta]: https://en.wikipedia.org/wiki/Normal_distribution
+[burkardt]: http://people.sc.fsu.edu/~jburkardt/i.html
+
+[doc]: http://godoc.org/github.com/ready-steady/prob/gaussian
