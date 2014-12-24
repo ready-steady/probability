@@ -7,4 +7,4 @@ distributions][uniform].
 
 [uniform]: https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
 
-[doc]: http://godoc.org/github.com/ready-steady/prob/gaussian
+[doc]: http://godoc.org/github.com/ready-steady/prob/uniform
