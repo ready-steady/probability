@@ -75,23 +75,23 @@ func TestInvCDF(t *testing.T) {
 }
 
 func BenchmarkCDF(b *testing.B) {
-	distribution := New(0.5, 1.5, 0, 1)
+	beta := New(0.5, 1.5, 0, 1)
 	x := probability.Sample(uniform.New(0, 1), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.CDF(distribution, x)
+		probability.CDF(beta, x)
 	}
 }
 
 func BenchmarkInvCDF(b *testing.B) {
-	distribution := New(0.5, 1.5, 0, 1)
+	beta := New(0.5, 1.5, 0, 1)
 	F := probability.Sample(uniform.New(0, 1), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.InvCDF(distribution, F)
+		probability.InvCDF(beta, F)
 	}
 }

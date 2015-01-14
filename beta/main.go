@@ -7,8 +7,8 @@ import (
 	"github.com/ready-steady/sfunc"
 )
 
-// Distribution represents a particular distribution from the family.
-type Distribution struct {
+// Beta represents a particular distribution from the family.
+type Beta struct {
 	α float64
 	β float64
 	a float64
@@ -16,16 +16,16 @@ type Distribution struct {
 }
 
 // New returns a beta distribution with α and β on [a, b].
-func New(α, β, a, b float64) *Distribution {
-	return &Distribution{α, β, a, b}
+func New(α, β, a, b float64) *Beta {
+	return &Beta{α, β, a, b}
 }
 
 // CDF evaluates the CDF of the distribution.
-func (d *Distribution) CDF(x float64) float64 {
-	return sfunc.IncBeta((x-d.a)/(d.b-d.a), d.α, d.β, sfunc.LogBeta(d.α, d.β))
+func (b *Beta) CDF(x float64) float64 {
+	return sfunc.IncBeta((x-b.a)/(b.b-b.a), b.α, b.β, sfunc.LogBeta(b.α, b.β))
 }
 
 // InvCDF evaluates the inverse CDF of the distribution.
-func (d *Distribution) InvCDF(p float64) float64 {
-	return (d.b-d.a)*sfunc.InvIncBeta(p, d.α, d.β, sfunc.LogBeta(d.α, d.β)) + d.a
+func (b *Beta) InvCDF(p float64) float64 {
+	return (b.b-b.a)*sfunc.InvIncBeta(p, b.α, b.β, sfunc.LogBeta(b.α, b.β)) + b.a
 }
