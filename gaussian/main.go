@@ -8,32 +8,32 @@ import (
 	"math/rand"
 )
 
-// Self represents a particular distribution from the family.
-type Self struct {
+// Distribution represents a particular distribution from the family.
+type Distribution struct {
 	μ float64
 	σ float64
 }
 
 // New returns a Gaussian distribution with mean μ and standard deviation σ.
-func New(μ, σ float64) *Self {
-	return &Self{μ, σ}
+func New(μ, σ float64) *Distribution {
+	return &Distribution{μ, σ}
 }
 
 // Sample draws a sample from the distribution.
-func (s *Self) Sample() float64 {
-	return s.μ + s.σ*rand.NormFloat64()
+func (d *Distribution) Sample() float64 {
+	return d.μ + d.σ*rand.NormFloat64()
 }
 
 // CDF evaluates the CDF of the distribution.
-func (s *Self) CDF(x float64) float64 {
-	return (1 + math.Erf((x-s.μ)/(s.σ*math.Sqrt2))) / 2
+func (d *Distribution) CDF(x float64) float64 {
+	return (1 + math.Erf((x-d.μ)/(d.σ*math.Sqrt2))) / 2
 }
 
 // InvCDF evaluates the inverse of the CDF of the distribution.
 //
 // The code is based on a C implementation by John Burkardt.
 // http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
-func (s *Self) InvCDF(p float64) (x float64) {
+func (d *Distribution) InvCDF(p float64) (x float64) {
 	const (
 		const1 = 0.180625
 		const2 = 1.6
@@ -52,7 +52,7 @@ func (s *Self) InvCDF(p float64) (x float64) {
 
 	if math.Abs(q) <= split1 {
 		x = const1 - q*q
-		x = s.μ + s.σ*q*poly7(coefA, x)/poly7(coeffB, x)
+		x = d.μ + d.σ*q*poly7(coefA, x)/poly7(coeffB, x)
 		return
 	}
 
@@ -73,9 +73,9 @@ func (s *Self) InvCDF(p float64) (x float64) {
 	}
 
 	if q < 0 {
-		x = s.μ - s.σ*x
+		x = d.μ - d.σ*x
 	} else {
-		x = s.μ + s.σ*x
+		x = d.μ + d.σ*x
 	}
 
 	return

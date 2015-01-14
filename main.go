@@ -1,5 +1,6 @@
-// Package prob provides functions for working with probability distributions.
-package prob
+// Package probability provides functions for working with probability
+// distributions.
+package probability
 
 // Sampler represents a probability distribution capable of sampling.
 type Sampler interface {
@@ -26,23 +27,22 @@ type Distribution interface {
 }
 
 // Sample draws samples from the given distribution.
-func Sample(dist Sampler, count uint32) []float64 {
+func Sample(distribution Sampler, count uint32) []float64 {
 	result := make([]float64, count)
 
 	for i := range result {
-		result[i] = dist.Sample()
+		result[i] = distribution.Sample()
 	}
 
 	return result
 }
 
-// CDF evaluates the cumulative distribution function of the given
-// distribution.
-func CDF(dist Cumulator, x []float64) []float64 {
+// CDF evaluates the cumulative distribution function of the given distribution.
+func CDF(distribution Cumulator, x []float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
-		result[i] = dist.CDF(x[i])
+		result[i] = distribution.CDF(x[i])
 	}
 
 	return result
@@ -50,11 +50,11 @@ func CDF(dist Cumulator, x []float64) []float64 {
 
 // InvCDF evaluates the inverse of the cumulative distribution function of the
 // given distribution.
-func InvCDF(dist Inverter, x []float64) []float64 {
+func InvCDF(distribution Inverter, x []float64) []float64 {
 	result := make([]float64, len(x))
 
 	for i := range result {
-		result[i] = dist.InvCDF(x[i])
+		result[i] = distribution.InvCDF(x[i])
 	}
 
 	return result

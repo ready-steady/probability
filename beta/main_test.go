@@ -3,8 +3,8 @@ package beta
 import (
 	"testing"
 
-	"github.com/ready-steady/prob"
-	"github.com/ready-steady/prob/uniform"
+	"github.com/ready-steady/probability"
+	"github.com/ready-steady/probability/uniform"
 	"github.com/ready-steady/support/assert"
 )
 
@@ -38,7 +38,7 @@ func TestCDF(t *testing.T) {
 		1.000000000000000e+00,
 	}
 
-	assert.AlmostEqual(prob.CDF(New(2, 3, -1, 2), x), F, t)
+	assert.AlmostEqual(probability.CDF(New(2, 3, -1, 2), x), F, t)
 }
 
 func TestInvCDF(t *testing.T) {
@@ -71,27 +71,27 @@ func TestInvCDF(t *testing.T) {
 		4.000000000000000e+00,
 	}
 
-	assert.AlmostEqual(prob.InvCDF(New(1, 2, 3, 4), F), x, t)
+	assert.AlmostEqual(probability.InvCDF(New(1, 2, 3, 4), F), x, t)
 }
 
 func BenchmarkCDF(b *testing.B) {
-	dist := New(0.5, 1.5, 0, 1)
-	x := prob.Sample(uniform.New(0, 1), 1000)
+	distribution := New(0.5, 1.5, 0, 1)
+	x := probability.Sample(uniform.New(0, 1), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		prob.CDF(dist, x)
+		probability.CDF(distribution, x)
 	}
 }
 
 func BenchmarkInvCDF(b *testing.B) {
-	dist := New(0.5, 1.5, 0, 1)
-	F := prob.Sample(uniform.New(0, 1), 1000)
+	distribution := New(0.5, 1.5, 0, 1)
+	F := probability.Sample(uniform.New(0, 1), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		prob.InvCDF(dist, F)
+		probability.InvCDF(distribution, F)
 	}
 }
