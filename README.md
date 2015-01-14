@@ -18,6 +18,6 @@ The repository hosts three nested packages:
 2. Implement your idea.
 3. Create a pull request.
 
-[doc]: http://godoc.org/github.com/ready-steady/prob
-[travis-svg]: https://travis-ci.org/ready-steady/prob.svg?branch=master
-[travis-url]: https://travis-ci.org/ready-steady/prob
+[doc]: http://godoc.org/github.com/ready-steady/probability
+[travis-svg]: https://travis-ci.org/ready-steady/probability.svg?branch=master
+[travis-url]: https://travis-ci.org/ready-steady/probability
