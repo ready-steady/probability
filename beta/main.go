@@ -4,7 +4,7 @@
 package beta
 
 import (
-	"github.com/ready-steady/sfunc"
+	"github.com/ready-steady/special"
 )
 
 // Beta represents a particular distribution from the family.
@@ -22,10 +22,10 @@ func New(α, β, a, b float64) *Beta {
 
 // CDF evaluates the CDF of the distribution.
 func (b *Beta) CDF(x float64) float64 {
-	return sfunc.IncBeta((x-b.a)/(b.b-b.a), b.α, b.β, sfunc.LogBeta(b.α, b.β))
+	return special.IncBeta((x-b.a)/(b.b-b.a), b.α, b.β, special.LogBeta(b.α, b.β))
 }
 
 // InvCDF evaluates the inverse CDF of the distribution.
 func (b *Beta) InvCDF(p float64) float64 {
-	return (b.b-b.a)*sfunc.InvIncBeta(p, b.α, b.β, sfunc.LogBeta(b.α, b.β)) + b.a
+	return (b.b-b.a)*special.InvIncBeta(p, b.α, b.β, special.LogBeta(b.α, b.β)) + b.a
 }
