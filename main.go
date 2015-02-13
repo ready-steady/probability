@@ -27,7 +27,7 @@ type Distribution interface {
 }
 
 // Sample draws samples from the given distribution.
-func Sample(distribution Sampler, count uint32) []float64 {
+func Sample(distribution Sampler, count uint) []float64 {
 	result := make([]float64, count)
 
 	for i := range result {
