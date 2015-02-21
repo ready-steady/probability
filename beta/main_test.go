@@ -38,7 +38,7 @@ func TestCDF(t *testing.T) {
 		1.000000000000000e+00,
 	}
 
-	assert.AlmostEqual(probability.CDF(New(2, 3, -1, 2), x), F, t)
+	assert.EqualWithin(probability.CDF(New(2, 3, -1, 2), x), F, 1e-15, t)
 }
 
 func TestInvCDF(t *testing.T) {
@@ -71,7 +71,7 @@ func TestInvCDF(t *testing.T) {
 		4.000000000000000e+00,
 	}
 
-	assert.AlmostEqual(probability.InvCDF(New(1, 2, 3, 4), F), x, t)
+	assert.EqualWithin(probability.InvCDF(New(1, 2, 3, 4), F), x, 2e-15, t)
 }
 
 func BenchmarkCDF(b *testing.B) {
