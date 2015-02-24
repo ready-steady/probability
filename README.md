@@ -4,9 +4,9 @@ The package provides functions for working with probability distributions.
 
 ## [Documentation][doc]
 
-## Nested Packages
+## Subpackages
 
-The repository hosts three nested packages:
+The package contains three subpackages:
 
 * [beta](beta),
 * [gaussian](gaussian), and
