@@ -4,9 +4,9 @@ import (
 	"math"
 	"testing"
 
+	"github.com/ready-steady/assert"
 	"github.com/ready-steady/probability"
 	"github.com/ready-steady/probability/uniform"
-	"github.com/ready-steady/support/assert"
 )
 
 func TestCDF(t *testing.T) {
