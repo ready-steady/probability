@@ -6,10 +6,11 @@ The package provides functions for working with probability distributions.
 
 ## Subpackages
 
-The package contains three subpackages:
+The package contains four subpackages:
 
 * [beta](beta),
-* [gaussian](gaussian), and
+* [gaussian](gaussian),
+* [generator](generator), and
 * [uniform](uniform).
 
 ## Contributing
