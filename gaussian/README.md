@@ -12,4 +12,4 @@ University.
 [wiki]: https://en.wikipedia.org/wiki/Normal_distribution
 [burkardt]: http://people.sc.fsu.edu/~jburkardt/i.html
 
-[doc]: http://godoc.org/github.com/ready-steady/prob/gaussian
+[doc]: http://godoc.org/github.com/ready-steady/probability/gaussian
