@@ -5,6 +5,7 @@ import (
 
 	"github.com/ready-steady/assert"
 	"github.com/ready-steady/probability"
+	"github.com/ready-steady/probability/generator"
 	"github.com/ready-steady/probability/uniform"
 )
 
@@ -76,7 +77,7 @@ func TestInvCDF(t *testing.T) {
 
 func BenchmarkCDF(b *testing.B) {
 	beta := New(0.5, 1.5, 0, 1)
-	x := probability.Sample(uniform.New(0, 1), 1000)
+	x := probability.Sample(uniform.New(0, 1), generator.New(0), 1000)
 
 	b.ResetTimer()
 
@@ -87,7 +88,7 @@ func BenchmarkCDF(b *testing.B) {
 
 func BenchmarkInvCDF(b *testing.B) {
 	beta := New(0.5, 1.5, 0, 1)
-	F := probability.Sample(uniform.New(0, 1), 1000)
+	F := probability.Sample(uniform.New(0, 1), generator.New(0), 1000)
 
 	b.ResetTimer()
 

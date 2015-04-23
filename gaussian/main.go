@@ -5,10 +5,11 @@ package gaussian
 
 import (
 	"math"
-	"math/rand"
+
+	"github.com/ready-steady/probability/generator"
 )
 
-// Gaussian represents a particular distribution from the family.
+// Gaussian represents a Gaussian distribution.
 type Gaussian struct {
 	μ float64
 	σ float64
@@ -20,8 +21,8 @@ func New(μ, σ float64) *Gaussian {
 }
 
 // Sample draws a sample from the distribution.
-func (g *Gaussian) Sample() float64 {
-	return g.μ + g.σ*rand.NormFloat64()
+func (g *Gaussian) Sample(generator generator.Generator) float64 {
+	return g.μ + g.σ*generator.NormFloat64()
 }
 
 // CDF evaluates the CDF of the distribution.

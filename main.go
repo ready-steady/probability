@@ -2,9 +2,13 @@
 // distributions.
 package probability
 
+import (
+	"github.com/ready-steady/probability/generator"
+)
+
 // Sampler represents a probability distribution capable of sampling.
 type Sampler interface {
-	Sample() float64
+	Sample(generator.Generator) float64
 }
 
 // Cumulator represents a probability distribution capable of evaluating its
@@ -27,11 +31,11 @@ type Distribution interface {
 }
 
 // Sample draws samples from the given distribution.
-func Sample(distribution Sampler, count uint) []float64 {
+func Sample(distribution Sampler, generator generator.Generator, count uint) []float64 {
 	result := make([]float64, count)
 
 	for i := range result {
-		result[i] = distribution.Sample()
+		result[i] = distribution.Sample(generator)
 	}
 
 	return result

@@ -7,7 +7,7 @@ import (
 	"github.com/ready-steady/special"
 )
 
-// Beta represents a particular distribution from the family.
+// Beta represents a beta distribution.
 type Beta struct {
 	α float64
 	β float64

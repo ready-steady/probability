@@ -4,10 +4,10 @@
 package uniform
 
 import (
-	"math/rand"
+	"github.com/ready-steady/probability/generator"
 )
 
-// Uniform represents a particular distribution from the family.
+// Uniform represents a uniform distribution.
 type Uniform struct {
 	a float64
 	b float64
@@ -19,6 +19,6 @@ func New(a, b float64) *Uniform {
 }
 
 // Sample draws a sample from the distribution.
-func (u *Uniform) Sample() float64 {
-	return (u.b-u.a)*rand.Float64() + u.a
+func (u *Uniform) Sample(generator generator.Generator) float64 {
+	return (u.b-u.a)*generator.Float64() + u.a
 }
