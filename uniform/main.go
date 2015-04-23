@@ -20,6 +20,5 @@ func New(a, b float64) *Uniform {
 
 // Sample draws a sample from the distribution.
 func (u *Uniform) Sample() float64 {
-	// http://golang.org/src/pkg/math/rand/rand.go#L104
-	return (u.b-u.a)*float64(rand.Int63n(1<<53))/(1<<53) + u.a
+	return (u.b-u.a)*rand.Float64() + u.a
 }
