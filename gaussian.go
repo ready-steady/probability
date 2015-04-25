@@ -1,12 +1,7 @@
-// Package gaussian provides algorithms for working with Gaussian distributions.
-//
-// https://en.wikipedia.org/wiki/Normal_distribution
-package gaussian
+package probability
 
 import (
 	"math"
-
-	"github.com/ready-steady/probability/generator"
 )
 
 // Gaussian represents a Gaussian distribution.
@@ -15,13 +10,14 @@ type Gaussian struct {
 	σ float64
 }
 
-// New returns a Gaussian distribution with mean μ and standard deviation σ.
-func New(μ, σ float64) *Gaussian {
+// NewGaussian returns a Gaussian distribution with mean μ and standard
+// deviation σ.
+func NewGaussian(μ, σ float64) *Gaussian {
 	return &Gaussian{μ, σ}
 }
 
 // Sample draws a sample from the distribution.
-func (g *Gaussian) Sample(generator generator.Generator) float64 {
+func (g *Gaussian) Sample(generator Generator) float64 {
 	return g.μ + g.σ*generator.NormFloat64()
 }
 

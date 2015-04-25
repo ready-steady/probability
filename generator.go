@@ -1,5 +1,4 @@
-// Package generator provides a generator of random numbers.
-package generator
+package probability
 
 import (
 	"math/rand"
@@ -11,7 +10,7 @@ type Generator interface {
 	NormFloat64() float64
 }
 
-// New returns a new generator.
-func New(seed int64) Generator {
+// NewGenerator returns a new generator.
+func NewGenerator(seed int64) Generator {
 	return rand.New(rand.NewSource(seed))
 }

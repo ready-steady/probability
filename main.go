@@ -1,14 +1,9 @@
-// Package probability provides functions for working with probability
-// distributions.
+// Package probability provides tool for working with probability distributions.
 package probability
-
-import (
-	"github.com/ready-steady/probability/generator"
-)
 
 // Sampler represents a probability distribution capable of sampling.
 type Sampler interface {
-	Sample(generator.Generator) float64
+	Sample(Generator) float64
 }
 
 // Cumulator represents a probability distribution capable of evaluating its
@@ -31,7 +26,7 @@ type Distribution interface {
 }
 
 // Sample draws samples from the given distribution.
-func Sample(distribution Sampler, generator generator.Generator, count uint) []float64 {
+func Sample(distribution Sampler, generator Generator, count uint) []float64 {
 	result := make([]float64, count)
 
 	for i := range result {

@@ -1,15 +1,12 @@
-package beta
+package probability
 
 import (
 	"testing"
 
 	"github.com/ready-steady/assert"
-	"github.com/ready-steady/probability"
-	"github.com/ready-steady/probability/generator"
-	"github.com/ready-steady/probability/uniform"
 )
 
-func TestCDF(t *testing.T) {
+func TestBetaCDF(t *testing.T) {
 	x := []float64{
 		-1.00, -0.85, -0.70, -0.55, -0.40, -0.25, -0.10, 0.05, 0.20, 0.35,
 		0.50, 0.65, 0.80, 0.95, 1.10, 1.25, 1.40, 1.55, 1.70, 1.85, 2.00,
@@ -39,10 +36,10 @@ func TestCDF(t *testing.T) {
 		1.000000000000000e+00,
 	}
 
-	assert.EqualWithin(probability.CDF(New(2, 3, -1, 2), x), F, 1e-15, t)
+	assert.EqualWithin(CDF(NewBeta(2, 3, -1, 2), x), F, 1e-15, t)
 }
 
-func TestInvCDF(t *testing.T) {
+func TestBetaInvCDF(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
@@ -72,27 +69,27 @@ func TestInvCDF(t *testing.T) {
 		4.000000000000000e+00,
 	}
 
-	assert.EqualWithin(probability.InvCDF(New(1, 2, 3, 4), F), x, 2e-15, t)
+	assert.EqualWithin(InvCDF(NewBeta(1, 2, 3, 4), F), x, 2e-15, t)
 }
 
-func BenchmarkCDF(b *testing.B) {
-	beta := New(0.5, 1.5, 0, 1)
-	x := probability.Sample(uniform.New(0, 1), generator.New(0), 1000)
+func BenchmarkBetaCDF(b *testing.B) {
+	beta := NewBeta(0.5, 1.5, 0, 1)
+	x := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.CDF(beta, x)
+		CDF(beta, x)
 	}
 }
 
-func BenchmarkInvCDF(b *testing.B) {
-	beta := New(0.5, 1.5, 0, 1)
-	F := probability.Sample(uniform.New(0, 1), generator.New(0), 1000)
+func BenchmarkBetaInvCDF(b *testing.B) {
+	beta := NewBeta(0.5, 1.5, 0, 1)
+	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.InvCDF(beta, F)
+		InvCDF(beta, F)
 	}
 }

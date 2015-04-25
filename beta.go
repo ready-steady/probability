@@ -1,7 +1,4 @@
-// Package beta provides algorithms for working with beta distributions.
-//
-// https://en.wikipedia.org/wiki/Beta_distribution
-package beta
+package probability
 
 import (
 	"github.com/ready-steady/special"
@@ -15,8 +12,8 @@ type Beta struct {
 	b float64
 }
 
-// New returns a beta distribution with α and β on [a, b].
-func New(α, β, a, b float64) *Beta {
+// NewBeta returns a beta distribution with α and β on [a, b].
+func NewBeta(α, β, a, b float64) *Beta {
 	return &Beta{α, β, a, b}
 }
 

@@ -1,16 +1,13 @@
-package gaussian
+package probability
 
 import (
 	"math"
 	"testing"
 
 	"github.com/ready-steady/assert"
-	"github.com/ready-steady/probability"
-	"github.com/ready-steady/probability/generator"
-	"github.com/ready-steady/probability/uniform"
 )
 
-func TestCDF(t *testing.T) {
+func TestGaussianCDF(t *testing.T) {
 	x := []float64{
 		-4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5,
 		0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0,
@@ -36,10 +33,10 @@ func TestCDF(t *testing.T) {
 		9.331927987311419e-01,
 	}
 
-	assert.EqualWithin(probability.CDF(New(1, 2), x), F, 1e-15, t)
+	assert.EqualWithin(CDF(NewGaussian(1, 2), x), F, 1e-15, t)
 }
 
-func TestInvCDF(t *testing.T) {
+func TestGaussianInvCDF(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
@@ -69,27 +66,27 @@ func TestInvCDF(t *testing.T) {
 		math.Inf(1),
 	}
 
-	assert.EqualWithin(probability.InvCDF(New(-1, 0.25), F), x, 1e-15, t)
+	assert.EqualWithin(InvCDF(NewGaussian(-1, 0.25), F), x, 1e-15, t)
 }
 
-func BenchmarkCDF(b *testing.B) {
-	gaussian := New(0, 1)
-	x := probability.Sample(gaussian, generator.New(0), 1000)
+func BenchmarkGaussianCDF(b *testing.B) {
+	gaussian := NewGaussian(0, 1)
+	x := Sample(gaussian, NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.CDF(gaussian, x)
+		CDF(gaussian, x)
 	}
 }
 
-func BenchmarkInvCDF(b *testing.B) {
-	gaussian := New(0, 1)
-	F := probability.Sample(uniform.New(0, 1), generator.New(0), 1000)
+func BenchmarkGaussianInvCDF(b *testing.B) {
+	gaussian := NewGaussian(0, 1)
+	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		probability.InvCDF(gaussian, F)
+		InvCDF(gaussian, F)
 	}
 }

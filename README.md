@@ -1,17 +1,8 @@
-# Probability Theory [![Build Status][travis-svg]][travis-url]
+# Probability Theory [![Build Status][status-svg]][status-url]
 
-The package provides functions for working with probability distributions.
+The package provides tools for working with probability distributions.
 
 ## [Documentation][doc]
-
-## Subpackages
-
-The package contains four subpackages:
-
-* [beta](beta),
-* [gaussian](gaussian),
-* [generator](generator), and
-* [uniform](uniform).
 
 ## Contributing
 
@@ -20,5 +11,5 @@ The package contains four subpackages:
 3. Create a pull request.
 
 [doc]: http://godoc.org/github.com/ready-steady/probability
-[travis-svg]: https://travis-ci.org/ready-steady/probability.svg?branch=master
-[travis-url]: https://travis-ci.org/ready-steady/probability
+[status-svg]: https://travis-ci.org/ready-steady/probability.svg?branch=master
+[status-url]: https://travis-ci.org/ready-steady/probability
