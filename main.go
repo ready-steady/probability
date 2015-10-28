@@ -1,4 +1,4 @@
-// Package probability provides tool for working with probability distributions.
+// Package probability provides a probability-theory toolbox.
 package probability
 
 // Sampler represents a probability distribution capable of sampling.
