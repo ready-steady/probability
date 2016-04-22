@@ -23,7 +23,7 @@ func (self *Gaussian) Sample(generator Generator) float64 {
 
 // Cumulate evaluates the CDF.
 func (self *Gaussian) Cumulate(x float64) float64 {
-	return (1 + math.Erf((x-self.μ)/(self.σ*math.Sqrt2))) / 2
+	return (1.0 + math.Erf((x-self.μ)/(self.σ*math.Sqrt2))) / 2.0
 }
 
 // Decumulate evaluates the inverse of the CDF.
@@ -35,14 +35,14 @@ func (self *Gaussian) Decumulate(p float64) (x float64) {
 		const1 = 0.180625
 		const2 = 1.6
 		split1 = 0.425
-		split2 = 5
+		split2 = 5.0
 	)
 
-	if p <= 0 {
-		return math.Inf(-1)
+	if p <= 0.0 {
+		return math.Inf(-1.0)
 	}
-	if 1 <= p {
-		return math.Inf(1)
+	if 1.0 <= p {
+		return math.Inf(1.0)
 	}
 
 	q := p - 0.5
@@ -53,10 +53,10 @@ func (self *Gaussian) Decumulate(p float64) (x float64) {
 		return
 	}
 
-	if q < 0 {
+	if q < 0.0 {
 		x = p
 	} else {
-		x = 1 - p
+		x = 1.0 - p
 	}
 
 	x = math.Sqrt(-math.Log(x))
@@ -69,7 +69,7 @@ func (self *Gaussian) Decumulate(p float64) (x float64) {
 		x = poly7(coefE, x) / poly7(coefF, x)
 	}
 
-	if q < 0 {
+	if q < 0.0 {
 		x = self.μ - self.σ*x
 	} else {
 		x = self.μ + self.σ*x
