@@ -69,6 +69,19 @@ func TestGaussianDecumulate(t *testing.T) {
 	assert.EqualWithin(Decumulate(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
 }
 
+func TestGaussianCumulateDecumulate(t *testing.T) {
+	const (
+		count = 1000
+	)
+
+	gaussian := NewGaussian(0.0, 1.0)
+
+	for i := 0; i < count; i++ {
+		p := float64(i) / (count - 1)
+		assert.EqualWithin(gaussian.Cumulate(gaussian.Decumulate(p)), p, 1e-15, t)
+	}
+}
+
 func BenchmarkGaussianCumulate(b *testing.B) {
 	gaussian := NewGaussian(0.0, 1.0)
 	x := Sample(gaussian, NewGenerator(0), 1000)
