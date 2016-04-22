@@ -28,3 +28,8 @@ func (self *Beta) Decumulate(p float64) float64 {
 	return (self.b-self.a)*special.InvIncBeta(p, self.α, self.β,
 		special.LogBeta(self.α, self.β)) + self.a
 }
+
+// Sample draws a sample.
+func (self *Beta) Sample(generator Generator) float64 {
+	return self.Decumulate(generator.Float64())
+}

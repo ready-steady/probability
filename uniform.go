@@ -23,5 +23,5 @@ func (self *Uniform) Decumulate(p float64) float64 {
 
 // Sample draws a sample.
 func (self *Uniform) Sample(generator Generator) float64 {
-	return (self.b-self.a)*generator.Float64() + self.a
+	return self.Decumulate(generator.Float64())
 }
