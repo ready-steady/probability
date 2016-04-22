@@ -4,7 +4,7 @@ import (
 	"github.com/ready-steady/special"
 )
 
-// Beta represents a beta distribution.
+// Beta is a beta distribution.
 type Beta struct {
 	α float64
 	β float64
@@ -17,12 +17,14 @@ func NewBeta(α, β, a, b float64) *Beta {
 	return &Beta{α, β, a, b}
 }
 
-// CDF evaluates the CDF of the distribution.
-func (b *Beta) CDF(x float64) float64 {
-	return special.IncBeta((x-b.a)/(b.b-b.a), b.α, b.β, special.LogBeta(b.α, b.β))
+// Cumulate evaluates the CDF.
+func (self *Beta) Cumulate(x float64) float64 {
+	return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β,
+		special.LogBeta(self.α, self.β))
 }
 
-// InvCDF evaluates the inverse CDF of the distribution.
-func (b *Beta) InvCDF(p float64) float64 {
-	return (b.b-b.a)*special.InvIncBeta(p, b.α, b.β, special.LogBeta(b.α, b.β)) + b.a
+// Decumulate evaluates the inverse of the CDF.
+func (self *Beta) Decumulate(p float64) float64 {
+	return (self.b-self.a)*special.InvIncBeta(p, self.α, self.β,
+		special.LogBeta(self.α, self.β)) + self.a
 }

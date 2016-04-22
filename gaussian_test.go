@@ -7,7 +7,7 @@ import (
 	"github.com/ready-steady/assert"
 )
 
-func TestGaussianCDF(t *testing.T) {
+func TestGaussianCumulate(t *testing.T) {
 	x := []float64{
 		-4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5,
 		0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0,
@@ -33,17 +33,17 @@ func TestGaussianCDF(t *testing.T) {
 		9.331927987311419e-01,
 	}
 
-	assert.EqualWithin(CDF(NewGaussian(1, 2), x), F, 1e-15, t)
+	assert.EqualWithin(Cumulate(NewGaussian(1.0, 2.0), x), F, 1e-15, t)
 }
 
-func TestGaussianInvCDF(t *testing.T) {
+func TestGaussianDecumulate(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
 	}
 
 	x := []float64{
-		math.Inf(-1),
+		math.Inf(-1.0),
 		-1.411213406737868e+00,
 		-1.320387891386150e+00,
 		-1.259108347373447e+00,
@@ -63,30 +63,30 @@ func TestGaussianInvCDF(t *testing.T) {
 		-7.408916526265525e-01,
 		-6.796121086138498e-01,
 		-5.887865932621319e-01,
-		math.Inf(1),
+		math.Inf(1.0),
 	}
 
-	assert.EqualWithin(InvCDF(NewGaussian(-1, 0.25), F), x, 1e-15, t)
+	assert.EqualWithin(Decumulate(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
 }
 
-func BenchmarkGaussianCDF(b *testing.B) {
-	gaussian := NewGaussian(0, 1)
+func BenchmarkGaussianCumulate(b *testing.B) {
+	gaussian := NewGaussian(0.0, 1.0)
 	x := Sample(gaussian, NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		CDF(gaussian, x)
+		Cumulate(gaussian, x)
 	}
 }
 
-func BenchmarkGaussianInvCDF(b *testing.B) {
-	gaussian := NewGaussian(0, 1)
-	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
+func BenchmarkGaussianDecumulate(b *testing.B) {
+	gaussian := NewGaussian(0.0, 1.0)
+	F := Sample(NewUniform(0.0, 1.0), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		InvCDF(gaussian, F)
+		Decumulate(gaussian, F)
 	}
 }

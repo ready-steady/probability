@@ -1,6 +1,6 @@
 package probability
 
-// Uniform represents a uniform distribution.
+// Uniform is a uniform distribution.
 type Uniform struct {
 	a float64
 	b float64
@@ -11,7 +11,7 @@ func NewUniform(a, b float64) *Uniform {
 	return &Uniform{a, b}
 }
 
-// Sample draws a sample from the distribution.
-func (u *Uniform) Sample(generator Generator) float64 {
-	return (u.b-u.a)*generator.Float64() + u.a
+// Sample draws a sample.
+func (self *Uniform) Sample(generator Generator) float64 {
+	return (self.b-self.a)*generator.Float64() + self.a
 }

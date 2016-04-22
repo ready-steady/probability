@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-// Gaussian represents a Gaussian distribution.
+// Gaussian is a Gaussian distribution.
 type Gaussian struct {
 	μ float64
 	σ float64
@@ -16,21 +16,21 @@ func NewGaussian(μ, σ float64) *Gaussian {
 	return &Gaussian{μ, σ}
 }
 
-// Sample draws a sample from the distribution.
-func (g *Gaussian) Sample(generator Generator) float64 {
-	return g.μ + g.σ*generator.NormFloat64()
+// Sample draws a sample.
+func (self *Gaussian) Sample(generator Generator) float64 {
+	return self.μ + self.σ*generator.NormFloat64()
 }
 
-// CDF evaluates the CDF of the distribution.
-func (g *Gaussian) CDF(x float64) float64 {
-	return (1 + math.Erf((x-g.μ)/(g.σ*math.Sqrt2))) / 2
+// Cumulate evaluates the CDF.
+func (self *Gaussian) Cumulate(x float64) float64 {
+	return (1 + math.Erf((x-self.μ)/(self.σ*math.Sqrt2))) / 2
 }
 
-// InvCDF evaluates the inverse of the CDF of the distribution.
+// Decumulate evaluates the inverse of the CDF.
 //
 // The code is based on a C implementation by John Burkardt.
 // http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
-func (g *Gaussian) InvCDF(p float64) (x float64) {
+func (self *Gaussian) Decumulate(p float64) (x float64) {
 	const (
 		const1 = 0.180625
 		const2 = 1.6
@@ -49,7 +49,7 @@ func (g *Gaussian) InvCDF(p float64) (x float64) {
 
 	if math.Abs(q) <= split1 {
 		x = const1 - q*q
-		x = g.μ + g.σ*q*poly7(coefA, x)/poly7(coeffB, x)
+		x = self.μ + self.σ*q*poly7(coefA, x)/poly7(coeffB, x)
 		return
 	}
 
@@ -70,9 +70,9 @@ func (g *Gaussian) InvCDF(p float64) (x float64) {
 	}
 
 	if q < 0 {
-		x = g.μ - g.σ*x
+		x = self.μ - self.σ*x
 	} else {
-		x = g.μ + g.σ*x
+		x = self.μ + self.σ*x
 	}
 
 	return
@@ -82,7 +82,6 @@ func poly7(coef []float64, x float64) (y float64) {
 	for i := 8 - 1; 0 <= i; i-- {
 		y = y*x + coef[i]
 	}
-
 	return
 }
 

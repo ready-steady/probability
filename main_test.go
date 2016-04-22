@@ -5,5 +5,5 @@ import (
 )
 
 func TestSample(_ *testing.T) {
-	Sample(NewUniform(0, 1), NewGenerator(0), 10)
+	Sample(NewUniform(0.0, 1.0), NewGenerator(0), 10)
 }
