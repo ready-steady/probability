@@ -2,7 +2,7 @@
 
 The repository hosts one package:
 
-* [distribution](distribution),
+* [distribution](distribution).
 
 ## Contributing
 
