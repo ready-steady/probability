@@ -1,4 +1,4 @@
-package probability
+package distribution
 
 import (
 	"math/rand"

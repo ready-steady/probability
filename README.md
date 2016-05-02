@@ -1,8 +1,8 @@
 # Probability Theory [![Build Status][status-svg]][status-url]
 
-The package provides a probability-theory toolbox.
+The repository hosts one package:
 
-## [Documentation][doc]
+* [distribution](distribution),
 
 ## Contributing
 
@@ -12,4 +12,3 @@ The package provides a probability-theory toolbox.
 
 [status-svg]: https://travis-ci.org/ready-steady/probability.svg?branch=master
 [status-url]: https://travis-ci.org/ready-steady/probability
-[doc]: http://godoc.org/github.com/ready-steady/probability

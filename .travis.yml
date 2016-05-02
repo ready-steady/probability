@@ -1,2 +1,5 @@
 language: go
 sudo: false
+
+script:
+  - go test -bench . -v ./...

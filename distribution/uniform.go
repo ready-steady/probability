@@ -1,4 +1,4 @@
-package probability
+package distribution
 
 // Uniform is a uniform distribution.
 type Uniform struct {

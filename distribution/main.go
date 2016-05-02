@@ -1,5 +1,5 @@
-// Package probability provides a probability-theory toolbox.
-package probability
+// Package provides probability distributions.
+package distribution
 
 // Sampler is a probability distribution capable of sampling.
 type Sampler interface {
