@@ -4,6 +4,10 @@ import (
 	"math"
 )
 
+var (
+	sqrt2Pi = math.Sqrt(2.0 * math.Pi)
+)
+
 // Gaussian is a Gaussian distribution.
 type Gaussian struct {
 	μ float64
@@ -24,7 +28,7 @@ func (self *Gaussian) Cumulate(x float64) float64 {
 // Dense evaluates the PDF.
 func (self *Gaussian) Dense(x float64) float64 {
 	μ, σ := self.μ, self.σ
-	return math.Exp(-(x-μ)*(x-μ)/(2.0*σ*σ)) / (math.Sqrt(2.0*math.Pi) * σ)
+	return math.Exp(-(x-μ)*(x-μ)/(2.0*σ*σ)) / (sqrt2Pi * σ)
 }
 
 // Invert evaluates the inverse of the CDF.
