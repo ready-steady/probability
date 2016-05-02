@@ -1,6 +1,8 @@
 package distribution
 
 import (
+	"math"
+
 	"github.com/ready-steady/special"
 )
 
@@ -10,23 +12,30 @@ type Beta struct {
 	β float64
 	a float64
 	b float64
+
+	lnBeta float64
 }
 
 // NewBeta returns a beta distribution with α and β on [a, b].
 func NewBeta(α, β, a, b float64) *Beta {
-	return &Beta{α, β, a, b}
+	return &Beta{α, β, a, b, special.LnBeta(α, β)}
 }
 
 // Cumulate evaluates the CDF.
 func (self *Beta) Cumulate(x float64) float64 {
-	return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β,
-		special.LogBeta(self.α, self.β))
+	return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β, self.lnBeta)
+}
+
+// Dense evaluates the PDF.
+func (self *Beta) Dense(x float64) float64 {
+	scale := self.b - self.a
+	x = (x - self.a) / scale
+	return math.Exp((self.α-1.0)*math.Log(x)+(self.β-1.0)*math.Log(1.0-x)-self.lnBeta) / scale
 }
 
 // Invert evaluates the inverse of the CDF.
 func (self *Beta) Invert(p float64) float64 {
-	return (self.b-self.a)*special.InvIncBeta(p, self.α, self.β,
-		special.LogBeta(self.α, self.β)) + self.a
+	return (self.b-self.a)*special.InvIncBeta(p, self.α, self.β, self.lnBeta) + self.a
 }
 
 // Sample draws a sample.
