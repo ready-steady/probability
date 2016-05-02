@@ -61,11 +61,6 @@ func TestBetaCumulate(t *testing.T) {
 	assert.EqualWithin(Cumulate(NewBeta(2.0, 3.0, -1.0, 2.0), x), F, 1e-15, t)
 }
 
-func TestBetaDense(t *testing.T) {
-	distribution := NewBeta(2.0, 5.0, 0.0, 1.0)
-	assert.EqualWithin(distribution.Dense(0.4269), 1.381557749792500e+00, 1e-15, t)
-}
-
 func TestBetaInvert(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
@@ -97,4 +92,9 @@ func TestBetaInvert(t *testing.T) {
 	}
 
 	assert.EqualWithin(Invert(NewBeta(1.0, 2.0, 3.0, 4.0), F), x, 2e-15, t)
+}
+
+func TestBetaWeigh(t *testing.T) {
+	distribution := NewBeta(2.0, 5.0, 0.0, 1.0)
+	assert.EqualWithin(distribution.Weigh(0.4269), 1.381557749792500e+00, 1e-15, t)
 }

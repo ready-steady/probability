@@ -25,12 +25,6 @@ func (self *Gaussian) Cumulate(x float64) float64 {
 	return (1.0 + math.Erf((x-self.μ)/(self.σ*math.Sqrt2))) / 2.0
 }
 
-// Dense evaluates the PDF.
-func (self *Gaussian) Dense(x float64) float64 {
-	μ, σ := self.μ, self.σ
-	return math.Exp(-(x-μ)*(x-μ)/(2.0*σ*σ)) / (sqrt2Pi * σ)
-}
-
 // Invert evaluates the inverse of the CDF.
 //
 // The code is based on a C implementation by John Burkardt.
@@ -86,6 +80,12 @@ func (self *Gaussian) Invert(p float64) (x float64) {
 // Sample draws a sample.
 func (self *Gaussian) Sample(generator Generator) float64 {
 	return self.μ + self.σ*generator.NormFloat64()
+}
+
+// Weigh evaluates the PDF.
+func (self *Gaussian) Weigh(x float64) float64 {
+	μ, σ := self.μ, self.σ
+	return math.Exp(-(x-μ)*(x-μ)/(2.0*σ*σ)) / (sqrt2Pi * σ)
 }
 
 func poly7(coef []float64, x float64) (y float64) {

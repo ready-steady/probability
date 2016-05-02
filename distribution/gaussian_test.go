@@ -71,11 +71,6 @@ func TestGaussianCumulateInvert(t *testing.T) {
 	}
 }
 
-func TestGaussianDense(t *testing.T) {
-	distribution := NewGaussian(1.0, 2.0)
-	assert.EqualWithin(distribution.Dense(0.4269), 1.9144759464577549e-01, 1e-15, t)
-}
-
 func TestGaussianInvert(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
@@ -107,4 +102,9 @@ func TestGaussianInvert(t *testing.T) {
 	}
 
 	assert.EqualWithin(Invert(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
+}
+
+func TestGaussianWeigh(t *testing.T) {
+	distribution := NewGaussian(1.0, 2.0)
+	assert.EqualWithin(distribution.Weigh(0.4269), 1.9144759464577549e-01, 1e-15, t)
 }
