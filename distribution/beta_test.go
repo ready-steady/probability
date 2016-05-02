@@ -7,8 +7,8 @@ import (
 )
 
 func BenchmarkBetaCumulate(b *testing.B) {
-	beta := NewBeta(0.5, 1.5, 0, 1)
-	x := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
+	beta := NewBeta(0.5, 1.5, 0.0, 1.0)
+	x := Sample(NewUniform(0.0, 1.0), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
@@ -18,8 +18,8 @@ func BenchmarkBetaCumulate(b *testing.B) {
 }
 
 func BenchmarkBetaInvert(b *testing.B) {
-	beta := NewBeta(0.5, 1.5, 0, 1)
-	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
+	beta := NewBeta(0.5, 1.5, 0.0, 1.0)
+	F := Sample(NewUniform(0.0, 1.0), NewGenerator(0), 1000)
 
 	b.ResetTimer()
 
@@ -58,7 +58,12 @@ func TestBetaCumulate(t *testing.T) {
 		1.000000000000000e+00,
 	}
 
-	assert.EqualWithin(Cumulate(NewBeta(2, 3, -1, 2), x), F, 1e-15, t)
+	assert.EqualWithin(Cumulate(NewBeta(2.0, 3.0, -1.0, 2.0), x), F, 1e-15, t)
+}
+
+func TestBetaDense(t *testing.T) {
+	distribution := NewBeta(2.0, 5.0, 0.0, 1.0)
+	assert.EqualWithin(distribution.Dense(0.4269), 1.381557749792500e+00, 1e-15, t)
 }
 
 func TestBetaInvert(t *testing.T) {
@@ -91,5 +96,5 @@ func TestBetaInvert(t *testing.T) {
 		4.000000000000000e+00,
 	}
 
-	assert.EqualWithin(Invert(NewBeta(1, 2, 3, 4), F), x, 2e-15, t)
+	assert.EqualWithin(Invert(NewBeta(1.0, 2.0, 3.0, 4.0), F), x, 2e-15, t)
 }
