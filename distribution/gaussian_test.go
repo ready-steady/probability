@@ -7,6 +7,28 @@ import (
 	"github.com/ready-steady/assert"
 )
 
+func BenchmarkGaussianCumulate(b *testing.B) {
+	gaussian := NewGaussian(0.0, 1.0)
+	x := Sample(gaussian, NewGenerator(0), 1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Cumulate(gaussian, x)
+	}
+}
+
+func BenchmarkGaussianInvert(b *testing.B) {
+	gaussian := NewGaussian(0.0, 1.0)
+	F := Sample(NewUniform(0.0, 1.0), NewGenerator(0), 1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Invert(gaussian, F)
+	}
+}
+
 func TestGaussianCumulate(t *testing.T) {
 	x := []float64{
 		-4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5,
@@ -36,7 +58,7 @@ func TestGaussianCumulate(t *testing.T) {
 	assert.EqualWithin(Cumulate(NewGaussian(1.0, 2.0), x), F, 1e-15, t)
 }
 
-func TestGaussianDecumulate(t *testing.T) {
+func TestGaussianInvert(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
@@ -66,10 +88,10 @@ func TestGaussianDecumulate(t *testing.T) {
 		math.Inf(1.0),
 	}
 
-	assert.EqualWithin(Decumulate(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
+	assert.EqualWithin(Invert(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
 }
 
-func TestGaussianCumulateDecumulate(t *testing.T) {
+func TestGaussianCumulateInvert(t *testing.T) {
 	const (
 		count = 1000
 	)
@@ -78,28 +100,6 @@ func TestGaussianCumulateDecumulate(t *testing.T) {
 
 	for i := 0; i < count; i++ {
 		p := float64(i) / (count - 1)
-		assert.EqualWithin(gaussian.Cumulate(gaussian.Decumulate(p)), p, 1e-15, t)
-	}
-}
-
-func BenchmarkGaussianCumulate(b *testing.B) {
-	gaussian := NewGaussian(0.0, 1.0)
-	x := Sample(gaussian, NewGenerator(0), 1000)
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		Cumulate(gaussian, x)
-	}
-}
-
-func BenchmarkGaussianDecumulate(b *testing.B) {
-	gaussian := NewGaussian(0.0, 1.0)
-	F := Sample(NewUniform(0.0, 1.0), NewGenerator(0), 1000)
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		Decumulate(gaussian, F)
+		assert.EqualWithin(gaussian.Cumulate(gaussian.Invert(p)), p, 1e-15, t)
 	}
 }

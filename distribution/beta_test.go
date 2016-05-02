@@ -6,6 +6,28 @@ import (
 	"github.com/ready-steady/assert"
 )
 
+func BenchmarkBetaCumulate(b *testing.B) {
+	beta := NewBeta(0.5, 1.5, 0, 1)
+	x := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Cumulate(beta, x)
+	}
+}
+
+func BenchmarkBetaInvert(b *testing.B) {
+	beta := NewBeta(0.5, 1.5, 0, 1)
+	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		Invert(beta, F)
+	}
+}
+
 func TestBetaCumulate(t *testing.T) {
 	x := []float64{
 		-1.00, -0.85, -0.70, -0.55, -0.40, -0.25, -0.10, 0.05, 0.20, 0.35,
@@ -39,7 +61,7 @@ func TestBetaCumulate(t *testing.T) {
 	assert.EqualWithin(Cumulate(NewBeta(2, 3, -1, 2), x), F, 1e-15, t)
 }
 
-func TestBetaInvCumulate(t *testing.T) {
+func TestBetaInvert(t *testing.T) {
 	F := []float64{
 		0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 		0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00,
@@ -69,27 +91,5 @@ func TestBetaInvCumulate(t *testing.T) {
 		4.000000000000000e+00,
 	}
 
-	assert.EqualWithin(Decumulate(NewBeta(1, 2, 3, 4), F), x, 2e-15, t)
-}
-
-func BenchmarkBetaCumulate(b *testing.B) {
-	beta := NewBeta(0.5, 1.5, 0, 1)
-	x := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		Cumulate(beta, x)
-	}
-}
-
-func BenchmarkBetaDecumulate(b *testing.B) {
-	beta := NewBeta(0.5, 1.5, 0, 1)
-	F := Sample(NewUniform(0, 1), NewGenerator(0), 1000)
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		Decumulate(beta, F)
-	}
+	assert.EqualWithin(Invert(NewBeta(1, 2, 3, 4), F), x, 2e-15, t)
 }

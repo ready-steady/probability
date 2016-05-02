@@ -26,11 +26,11 @@ func (self *Gaussian) Cumulate(x float64) float64 {
 	return (1.0 + math.Erf((x-self.μ)/(self.σ*math.Sqrt2))) / 2.0
 }
 
-// Decumulate evaluates the inverse of the CDF.
+// Invert evaluates the inverse of the CDF.
 //
 // The code is based on a C implementation by John Burkardt.
 // http://people.sc.fsu.edu/~jburkardt/c_src/asa241/asa241.html
-func (self *Gaussian) Decumulate(p float64) (x float64) {
+func (self *Gaussian) Invert(p float64) (x float64) {
 	const (
 		const1 = 0.180625
 		const2 = 1.6

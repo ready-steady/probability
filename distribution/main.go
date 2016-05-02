@@ -1,27 +1,26 @@
 // Package provides probability distributions.
 package distribution
 
-// Sampler is a probability distribution capable of sampling.
-type Sampler interface {
-	Sample(Generator) float64
+// Continuous is a continuous distribution.
+type Continuous interface {
+	Cumulator
+	Inverter
+	Sampler
 }
 
-// Cumulator is a probability distribution capable of evaluating its CDF.
+// Cumulator is a distribution capable of evaluating its CDF.
 type Cumulator interface {
 	Cumulate(float64) float64
 }
 
-// Decumulator is a probability distribution capable of evaluating the inverse
-// of its CDF.
-type Decumulator interface {
-	Decumulate(float64) float64
+// Inverter is a distribution capable of evaluating the inverse of its CDF.
+type Inverter interface {
+	Invert(float64) float64
 }
 
-// Distribution is a probability distribution.
-type Distribution interface {
-	Cumulator
-	Decumulator
-	Sampler
+// Sampler is a distribution capable of sampling.
+type Sampler interface {
+	Sample(Generator) float64
 }
 
 // Sample draws samples from the given distribution.
@@ -42,11 +41,11 @@ func Cumulate(distribution Cumulator, x []float64) []float64 {
 	return result
 }
 
-// Decumulate evaluates the inverse of a CDF at a set of points.
-func Decumulate(distribution Decumulator, x []float64) []float64 {
+// Invert evaluates the inverse of a CDF at a set of points.
+func Invert(distribution Inverter, x []float64) []float64 {
 	result := make([]float64, len(x))
 	for i := range result {
-		result[i] = distribution.Decumulate(x[i])
+		result[i] = distribution.Invert(x[i])
 	}
 	return result
 }
