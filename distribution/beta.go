@@ -23,7 +23,13 @@ func NewBeta(α, β, a, b float64) *Beta {
 
 // Cumulate evaluates the CDF.
 func (self *Beta) Cumulate(x float64) float64 {
-	return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β, self.lnBeta)
+	if x < self.a {
+		return 0.0
+	} else if x > self.b {
+		return 1.0
+	} else {
+		return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β, self.lnBeta)
+	}
 }
 
 // Invert evaluates the inverse of the CDF.
@@ -38,7 +44,11 @@ func (self *Beta) Sample(generator Generator) float64 {
 
 // Weigh evaluates the PDF.
 func (self *Beta) Weigh(x float64) float64 {
-	scale := self.b - self.a
-	x = (x - self.a) / scale
-	return math.Exp((self.α-1.0)*math.Log(x)+(self.β-1.0)*math.Log(1.0-x)-self.lnBeta) / scale
+	if x < self.a || x > self.b {
+		return 0.0
+	} else {
+		scale := self.b - self.a
+		x = (x - self.a) / scale
+		return math.Exp((self.α-1.0)*math.Log(x)+(self.β-1.0)*math.Log(1.0-x)-self.lnBeta) / scale
+	}
 }
