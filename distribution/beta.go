@@ -23,9 +23,9 @@ func NewBeta(α, β, a, b float64) *Beta {
 
 // Cumulate evaluates the CDF.
 func (self *Beta) Cumulate(x float64) float64 {
-	if x < self.a {
+	if x <= self.a {
 		return 0.0
-	} else if x > self.b {
+	} else if x >= self.b {
 		return 1.0
 	} else {
 		return special.IncBeta((x-self.a)/(self.b-self.a), self.α, self.β, self.lnBeta)

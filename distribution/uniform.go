@@ -13,9 +13,9 @@ func NewUniform(a, b float64) *Uniform {
 
 // Cumulate evaluates the CDF.
 func (self *Uniform) Cumulate(x float64) float64 {
-	if x < self.a {
+	if x <= self.a {
 		return 0.0
-	} else if x > self.b {
+	} else if x >= self.b {
 		return 1.0
 	} else {
 		return (x - self.a) / (self.b - self.a)
