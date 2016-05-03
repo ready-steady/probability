@@ -96,8 +96,8 @@ func TestBetaInvert(t *testing.T) {
 
 func TestBetaWeigh(t *testing.T) {
 	distribution := NewBeta(2.0, 5.0, 0.0, 1.0)
-	x := []float64{0.4269}
-	p := []float64{1.381557749792500e+00}
+	x := []float64{-1.0, 0.4269, 2.0}
+	p := []float64{0.0, 1.381557749792500e+00, 0.0}
 
 	assert.EqualWithin(Weigh(distribution, x), p, 1e-15, t)
 }
