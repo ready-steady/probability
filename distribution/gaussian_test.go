@@ -55,7 +55,7 @@ func TestGaussianCumulate(t *testing.T) {
 		9.331927987311419e-01,
 	}
 
-	assert.EqualWithin(Cumulate(NewGaussian(1.0, 2.0), x), F, 1e-15, t)
+	assert.Close(Cumulate(NewGaussian(1.0, 2.0), x), F, 1e-15, t)
 }
 
 func TestGaussianCumulateInvert(t *testing.T) {
@@ -67,7 +67,7 @@ func TestGaussianCumulateInvert(t *testing.T) {
 
 	for i := 0; i < count; i++ {
 		p := float64(i) / (count - 1)
-		assert.EqualWithin(gaussian.Cumulate(gaussian.Invert(p)), p, 1e-15, t)
+		assert.Close(gaussian.Cumulate(gaussian.Invert(p)), p, 1e-15, t)
 	}
 }
 
@@ -101,7 +101,7 @@ func TestGaussianInvert(t *testing.T) {
 		math.Inf(1.0),
 	}
 
-	assert.EqualWithin(Invert(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
+	assert.Close(Invert(NewGaussian(-1.0, 0.25), F), x, 1e-15, t)
 }
 
 func TestGaussianWeigh(t *testing.T) {
@@ -109,5 +109,5 @@ func TestGaussianWeigh(t *testing.T) {
 	x := []float64{0.4269}
 	p := []float64{1.9144759464577549e-01}
 
-	assert.EqualWithin(Weigh(distribution, x), p, 1e-15, t)
+	assert.Close(Weigh(distribution, x), p, 1e-15, t)
 }
